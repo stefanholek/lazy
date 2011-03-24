@@ -529,6 +529,40 @@ class InvalidateSubclassTests(TestCase):
             "'Bar' object has no attribute '__dict__'",
             cached.invalidate, b, 'bar')
 
+    def test_invalidate_superclass_attribute(self):
+        # cached.invalidate CANNOT invalidate a superclass (lazy) attribute.
+        called = []
+
+        class Bar(object):
+            @lazy
+            def bar(self):
+                called.append('bar')
+                return 1
+
+        b = Bar()
+        self.assertException(AttributeError,
+            "'Bar.bar' is not a cached attribute",
+            cached.invalidate, b, 'bar')
+
+    def test_invalidate_subclass_attribute(self):
+        # Whereas lazy.invalidate CAN invalidate a subclass (cached) attribute.
+        called = []
+
+        class Bar(object):
+            @cached
+            def bar(self):
+                called.append('bar')
+                return 1
+
+        b = Bar()
+        self.assertEqual(b.bar, 1)
+        self.assertEqual(len(called), 1)
+
+        lazy.invalidate(b, 'bar')
+
+        self.assertEqual(b.bar, 1)
+        self.assertEqual(len(called), 2)
+
 
 class AssertExceptionTests(TestCase):
 
