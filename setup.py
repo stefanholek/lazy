@@ -5,7 +5,8 @@ version = '1.0'
 setup(name='lazy',
       version=version,
       description='Lazy attributes for Python objects',
-      long_description=open('README.txt').read(),
+      long_description=open('README.txt').read() + '\n' +
+                       open('CHANGES.txt').read(),
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
