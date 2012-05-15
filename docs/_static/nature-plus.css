@@ -1,0 +1,9 @@
+@import url('nature.css');
+
+a tt.xref {
+    color: #005b81;
+}
+
+h1 a tt.xref {
+    color: black;
+}
