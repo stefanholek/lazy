@@ -19,14 +19,14 @@ first time it is used. Subsequent uses return the results of the first call.
 API Documentation
 =================
 
-.. class:: lazy.lazy(func)
+.. class:: lazy(func)
 
     lazy descriptor.
 
     Used as a decorator to create lazy attributes. Lazy attributes are
     evaluated on first use.
 
-.. classmethod:: lazy.invalidate(inst, name)
+.. classmethod:: invalidate(inst, name)
 
     Invalidate a lazy attribute.
 
