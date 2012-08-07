@@ -1,5 +1,7 @@
 """Decorator to create lazy attributes."""
 
+import functools
+
 
 class lazy(object):
     """lazy descriptor
@@ -10,10 +12,7 @@ class lazy(object):
 
     def __init__(self, func):
         self.__func = func
-        self.__name__ = func.__name__
-        self.__module__ = func.__module__
-        self.__doc__ = func.__doc__
-        self.__dict__.update(func.__dict__)
+        functools.wraps(self.__func)(self)
 
     def __get__(self, inst, inst_cls):
         if inst is None:

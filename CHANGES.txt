@@ -4,6 +4,9 @@ Changelog
 1.1 - Unreleased
 ----------------
 
+- Use ``functools.wraps()`` properly; the list of attributes changes with
+  every version of Python 3.
+  [stefan]
 
 1.0 - 2011-03-24
 ----------------
