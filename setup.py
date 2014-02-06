@@ -24,8 +24,5 @@ setup(name='lazy',
       include_package_data=True,
       zip_safe=True,
       test_suite='lazy.tests',
-      install_requires=[
-          'setuptools',
-      ],
       use_2to3=True,
 )
