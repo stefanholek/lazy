@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2 - Unreleased
+1.2 - 2014-04-19
 ----------------
 
 - Remove setuptools from install_requires because it isn't.
