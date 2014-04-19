@@ -4,6 +4,8 @@ Changelog
 1.2 - Unreleased
 ----------------
 
+- Remove setuptools from install_requires because it isn't.
+  [stefan]
 
 1.1 - 2012-10-12
 ----------------
