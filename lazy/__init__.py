@@ -1,3 +1,3 @@
 """The lazy module."""
 
-from lazy import lazy
+from .lazy import lazy
