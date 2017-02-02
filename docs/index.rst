@@ -28,7 +28,7 @@ API Documentation
 
 .. classmethod:: invalidate(inst, name)
 
-    Invalidate a lazy attribute.
+    Invalidate lazy attribute `name` of instance `inst`.
 
     This obviously violates the :class:`~lazy.lazy` contract. Subclasses
     of :class:`~lazy.lazy` may however have a contract where invalidation
