@@ -4,6 +4,8 @@ Changelog
 1.3 - Unreleased
 ----------------
 
+- Support Python 2.6-3.6 without 2to3.
+  [stefan]
 
 1.2 - 2014-04-19
 ----------------
