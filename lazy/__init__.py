@@ -1,3 +1,4 @@
 """The lazy module."""
 
-from lazy import lazy
+from __future__ import absolute_import
+from .lazy import lazy
