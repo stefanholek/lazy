@@ -64,5 +64,5 @@ I first encountered this type of descriptor in the
 ``zope.cachedescriptors`` package, which is part of the
 `Zope Toolkit`_.
 
-.. _`Zope Toolkit`: http://docs.zope.org/zopetoolkit/
+.. _`Zope Toolkit`: https://zopetoolkit.readthedocs.io
 
