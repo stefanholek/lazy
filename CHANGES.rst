@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3 - Unreleased
+1.3 - 2017-02-05
 ----------------
 
 - Support Python 2.6-3.6 without 2to3.
