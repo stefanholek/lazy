@@ -7,6 +7,9 @@ Changelog
 - Support Python 2.6-3.6 without 2to3.
   [stefan]
 
+- Add a LICENSE file.
+  [stefan]
+
 1.2 - 2014-04-19
 ----------------
 
