@@ -4,6 +4,11 @@ Changelog
 1.4 - Unreleased
 ----------------
 
+- Add MANIFEST.in.
+  [stefan]
+
+- Release as universal wheel.
+  [stefan]
 
 1.3 - 2017-02-05
 ----------------
