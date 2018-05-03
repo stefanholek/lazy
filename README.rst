@@ -57,6 +57,13 @@ Another application area is caching::
         def person_data(self):
             return self.session.query(Person).get(self.person_id)
 
+Documentation
+=============
+
+For further details please refer to the `API Documentation`_.
+
+.. _`API Documentation`: https://lazy.readthedocs.io/en/stable/
+
 Credits
 =======
 
