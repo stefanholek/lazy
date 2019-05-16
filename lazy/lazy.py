@@ -38,6 +38,16 @@ class lazy(object):
         """
         inst_cls = inst.__class__
 
+        if name.startswith('__') and not name.endswith('__'):
+            name = '_%s%s' % (inst_cls.__name__, name)
+        if cls.is_initialized(inst,name):
+            del inst.__dict__[name]
+
+    @classmethod
+    def is_initialized(cls, inst, name):
+        """test if a lazy attribute is initialized"""
+        inst_cls = inst.__class__
+
         if not hasattr(inst, '__dict__'):
             raise AttributeError("'%s' object has no attribute '__dict__'" % (inst_cls.__name__,))
 
@@ -47,6 +57,4 @@ class lazy(object):
         if not isinstance(getattr(inst_cls, name), cls):
             raise AttributeError("'%s.%s' is not a %s attribute" % (inst_cls.__name__, name, cls.__name__))
 
-        if name in inst.__dict__:
-            del inst.__dict__[name]
-
+        return name in inst.__dict__

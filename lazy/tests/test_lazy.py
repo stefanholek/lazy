@@ -342,6 +342,134 @@ class InvalidateTests(TestCase):
             lazy.invalidate, f, 'foo')
 
 
+class IsInitializedTests(TestCase):
+
+    def test_is_initialized(self):
+        # It should be possible to test if a lazy attribute is initialized.
+        called = []
+        class Foo(object):
+            @lazy
+            def foo(self):
+                called.append('foo')
+                return 1
+
+        f = Foo()
+        self.assertFalse(lazy.is_initialized(f,'foo'))
+        self.assertEqual(len(called), 0)
+
+        self.assertEqual(f.foo, 1)
+        self.assertEqual(len(called), 1)
+        self.assertTrue(lazy.is_initialized(f,'foo'))
+
+
+
+    def test_is_initialized_private_attribute(self):
+        # It should be possible to invalidate a private lazy attribute.
+        called = []
+
+        class Foo(object):
+            @lazy
+            def __foo(self):
+                called.append('foo')
+                return 1
+            def get_foo(self):
+                return self.__foo
+
+        f = Foo()
+        self.assertFalse(lazy.is_initialized(f,'__foo'))
+        self.assertEqual(len(called), 0)
+
+        self.assertEqual(f.get_foo(), 1)
+        self.assertEqual(len(called), 1)
+        self.assertTrue(lazy.is_initialized(f,'__foo'))
+
+
+    def test_invalidate_mangled_attribute(self):
+        # It should be possible to test a private lazy attribute
+        # by its mangled name.
+
+        class Foo(object):
+            @lazy
+            def __foo(self):
+                return 1
+            def get_foo(self):
+                return self.__foo
+
+        f = Foo()
+        self.assertFalse(lazy.is_initialized(f,'_Foo__foo'))
+        self.assertEqual(f.get_foo(), 1)
+        self.assertTrue(lazy.is_initialized(f,'_Foo__foo'))
+
+    def test_is_initialized_reserved_attribute(self):
+        # It should be possible to text a reserved lazy attribute.
+
+        class Foo(object):
+            @lazy
+            def __foo__(self):
+                return 1
+
+        f = Foo()
+        self.assertFalse(lazy.is_initialized(f,'__foo__'))
+        self.assertEqual(f.__foo__, 1)
+        self.assertTrue(lazy.is_initialized(f, '__foo__'))
+
+    def test_is_initialized_nonlazy_attribute(self):
+        # Invalidating an attribute that is not lazy should
+        # raise an AttributeError.
+
+        class Foo(object):
+            def foo(self):
+                return 1
+
+        f = Foo()
+        self.assertException(AttributeError,
+                             "'Foo.foo' is not a lazy attribute",
+                             lazy.is_initialized, f, 'foo')
+
+    def test_invalidate_nonlazy_private_attribute(self):
+        # Invalidating a private attribute that is not lazy should
+        # raise an AttributeError.
+
+        class Foo(object):
+            def __foo(self):
+                return 1
+
+        f = Foo()
+        self.assertException(AttributeError,
+                             "'Foo._Foo__foo' is not a lazy attribute",
+                             lazy.is_initialized, f, '__foo')
+
+    def test_invalidate_unknown_attribute(self):
+        # is_initialize on an unknown attribute should
+        # raise an AttributeError.
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                return 1
+
+        f = Foo()
+        self.assertException(AttributeError,
+                             "type object 'Foo' has no attribute 'bar'",
+                             lazy.is_initialized, f, 'bar')
+
+    def test_is_initialized_readonly_object(self):
+        # Calling invalidate on a read-only object should
+        # raise an AttributeError.
+
+        class Foo(object):
+            __slots__ = ()
+            @lazy
+            def foo(self):
+                return 1
+
+        f = Foo()
+        self.assertException(AttributeError,
+                             "'Foo' object has no attribute '__dict__'",
+                             lazy.is_initialized, f, 'foo')
+
+
+
 # A lazy subclass
 class cached(lazy):
     pass

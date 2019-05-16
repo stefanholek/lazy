@@ -45,6 +45,10 @@ The class below creates its ``store`` resource lazily::
         def get(self, uid, default=None):
             return self.store.get(uid, default)
 
+        def close(self):
+          if lazy.is_initialized(self,'store'):
+             self.store.close()
+
 Another application area is caching::
 
     class PersonView(View):
