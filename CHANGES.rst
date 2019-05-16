@@ -3,7 +3,7 @@ Changelog
 
 1.5 - Unreleased
 ----------------
-
+- Add `is_initialized` function to test if lazy attribute has been initialized
 
 1.4 - 2019-01-28
 ----------------
