@@ -14,7 +14,7 @@ Package Contents
 Overview
 ========
 
-*Lazy attributes* are computed attributes that are evaluated only
+Lazy attributes are computed attributes that are evaluated only
 once, the first time they are used.  Subsequent uses return the
 results of the first call. They come handy when code should run
 
@@ -27,7 +27,9 @@ The possibilities are endless.
 Examples
 ========
 
-The class below creates its ``store`` resource lazily::
+The class below creates its ``store`` resource lazily:
+
+.. code-block:: python
 
     from lazy import lazy
 
@@ -45,7 +47,9 @@ The class below creates its ``store`` resource lazily::
         def get(self, uid, default=None):
             return self.store.get(uid, default)
 
-Another application area is caching::
+Another application area is caching:
+
+.. code-block:: python
 
     class PersonView(View):
 
