@@ -1,1 +1,2 @@
 include LICENSE tox.ini *.rst
+include lazy/py.typed lazy/lazy.pyi

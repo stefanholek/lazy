@@ -23,6 +23,7 @@ setup(name='lazy',
       license='BSD-2-Clause',
       packages=find_packages(),
       include_package_data=True,
-      zip_safe=True,
+      zip_safe=False,
+      package_data={"lazy": ["py.typed", "lazy.pyi"]},
       test_suite='lazy.tests',
 )
