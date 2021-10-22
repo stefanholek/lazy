@@ -22,7 +22,5 @@ setup(name='lazy',
       url='https://github.com/stefanholek/lazy',
       license='BSD-2-Clause',
       packages=find_packages(),
-      include_package_data=True,
       zip_safe=True,
-      test_suite='lazy.tests',
 )
