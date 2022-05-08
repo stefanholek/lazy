@@ -1,1 +1,2 @@
 include LICENSE tox.ini *.rst
+recursive-include lazy/tests *.py
