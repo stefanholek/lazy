@@ -3,6 +3,7 @@ from typing import TypeVar, Callable, Type, Generic
 _R = TypeVar("_R")
 _C = TypeVar("_C")
 
+
 class lazy(Generic[_R, _C]):
 
     def __init__(self, func: Callable[[_C], _R]) -> None: ...
