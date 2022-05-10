@@ -24,6 +24,12 @@ results of the first call. They come handy when code should run
 You can think of it as *deferred initialization*.
 The possibilities are endless.
 
+Typing
+======
+
+The decorator is fully typed. Type checkers can infer the type of
+a lazy attribute from the return value of the decorated method.
+
 Examples
 ========
 

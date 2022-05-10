@@ -4,7 +4,7 @@ Changelog
 1.5 - Unreleased
 ----------------
 
-- Allow type checkers to infer the type of the lazy property.
+- Allow type checkers to infer the type of a lazy attribute.
   [elKei24]
 
 - Add Python 3.8-3.10 to tox.ini. Remove old Python versions.
