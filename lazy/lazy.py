@@ -1,20 +1,30 @@
 """Decorator to create lazy attributes."""
-
+from __future__ import annotations
+from typing import TypeVar, Callable, Generic, overload, Union, Optional
 import functools
 
 
-class lazy(object):
+T = TypeVar('T')
+O = TypeVar('O')
+
+class lazy(Generic[T, O]):
     """lazy descriptor
 
     Used as a decorator to create lazy attributes. Lazy attributes
     are evaluated on first use.
     """
 
-    def __init__(self, func):
+    def __init__(self, func: Callable[[O], T]):
         self.__func = func
         functools.wraps(self.__func)(self)
 
-    def __get__(self, inst, inst_cls):
+    @overload
+    def __get__(self, inst: None, inst_cls) -> lazy: ...
+
+    @overload
+    def __get__(self, inst: O, inst_cls) -> T: ...
+
+    def __get__(self, inst: Optional[O], inst_cls) -> Union[lazy, T]:
         if inst is None:
             return self
 
