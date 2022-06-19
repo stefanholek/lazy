@@ -158,6 +158,24 @@ class LazyTests(TestCase):
         self.assertEqual(Foo.bar.__doc__, "bar func doc")
         self.assertEqual(Foo.bar.__module__, "lazy.tests.test_lazy")
 
+    def test_types(self):
+        # A lazy attribute should be of type lazy.
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                return 1
+            @property
+            def bar(self):
+                return "bar"
+
+        self.assertEqual(type(Foo.foo), lazy)
+        self.assertEqual(type(Foo.bar), property)
+
+        f = Foo()
+        self.assertEqual(type(f.foo), int)
+        self.assertEqual(type(f.bar), str)
+
 
 class InvalidateTests(TestCase):
 
