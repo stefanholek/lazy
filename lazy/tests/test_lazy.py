@@ -176,6 +176,31 @@ class LazyTests(TestCase):
         self.assertEqual(type(f.foo), int)
         self.assertEqual(type(f.bar), str)
 
+    def test_super(self):
+        # A lazy attribute should work when invoked via super.
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                return 1
+
+        class Bar(Foo):
+            @lazy
+            def foo(self):
+                return super(Bar, self).foo
+
+        class Baz(Foo):
+            @lazy
+            def foo(self):
+                return super().foo
+
+        b = Bar()
+        self.assertEqual(b.foo, 1)
+
+        if sys.version_info >= (3,):
+            b = Baz()
+            self.assertEqual(b.foo, 1)
+
 
 class InvalidateTests(TestCase):
 
