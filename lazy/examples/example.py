@@ -21,6 +21,13 @@ class C(object):
         return date(2010, 10, 10)
 
 
+class D(C):
+
+    @lazy
+    def foo(self) -> str:
+        return super().foo
+
+
 def f() -> None:
     c = C()
     'hello ' + c.foo
@@ -38,4 +45,8 @@ def f() -> None:
 
     type(c.foo) == str
     type(c.baz) == int
+
+    d = D()
+    'hello ' + d.foo
+    'hello ' + super(D, d).foo
 
