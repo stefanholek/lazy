@@ -2,6 +2,8 @@
 
 import functools
 
+_marker = object()
+
 
 class lazy(object):
     """lazy descriptor
@@ -25,8 +27,9 @@ class lazy(object):
         if name.startswith('__') and not name.endswith('__'):
             name = '_%s%s' % (inst_cls.__name__, name)
 
-        value = self.__func(inst)
-        inst.__dict__[name] = value
+        value = inst.__dict__.get(name, _marker)
+        if value is _marker:
+            inst.__dict__[name] = value = self.__func(inst)
         return value
 
     @classmethod
