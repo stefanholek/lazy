@@ -1,6 +1,10 @@
 """Decorator to create lazy attributes."""
 
+import sys
 import functools
+
+if sys.version_info >= (3, 9):
+    from types import GenericAlias
 
 _marker = object()
 
@@ -52,4 +56,7 @@ class lazy(object):
 
         if name in inst.__dict__:
             del inst.__dict__[name]
+
+    if sys.version_info >= (3, 9):
+        __class_getitem__ = classmethod(GenericAlias)
 

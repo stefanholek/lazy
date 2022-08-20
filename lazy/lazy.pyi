@@ -1,5 +1,10 @@
+import sys
+
 from typing import TypeVar, Callable, Type, Generic
 from typing import Optional, Any, overload
+
+if sys.version_info >= (3, 9):
+    from types import GenericAlias
 
 _R = TypeVar("_R")
 
@@ -17,4 +22,7 @@ class lazy(Generic[_R]):
 
     @classmethod
     def invalidate(cls, inst: object, name: str) -> None: ...
+
+    if sys.version_info >= (3, 9):
+        def __class_getitem__(cls, params: Any) -> GenericAlias: ...
 
