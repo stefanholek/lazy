@@ -182,24 +182,53 @@ class LazyTests(TestCase):
         class Foo(object):
             @lazy
             def foo(self):
-                return 1
+                return 'foo'
 
         class Bar(Foo):
             @lazy
             def foo(self):
-                return super(Bar, self).foo
+                return super(Bar, self).foo + 'x'
 
         class Baz(Foo):
             @lazy
             def foo(self):
-                return super().foo
+                return super().foo + 'xx'
 
         b = Bar()
-        self.assertEqual(b.foo, 1)
+        self.assertEqual(b.foo, 'foox')
+        self.assertEqual(b.foo, 'foox')
 
         if sys.version_info >= (3,):
             b = Baz()
-            self.assertEqual(b.foo, 1)
+            self.assertEqual(b.foo, 'fooxx')
+            self.assertEqual(b.foo, 'fooxx')
+
+    def test_super_binding(self):
+        # It should be impossible to change the cache once set.
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                return 'foo'
+
+        class Bar(Foo):
+            @lazy
+            def foo(self):
+                return super(Bar, self).foo + 'x'
+
+        b = Bar()
+        self.assertEqual(b.foo, 'foox')
+
+        orig_id = id(b.foo)
+        self.assertEqual(b.foo, 'foox')
+        self.assertEqual(orig_id, id(b.foo))
+
+        self.assertEqual(super(Bar, b).foo, 'foox')
+        self.assertEqual(orig_id, id(b.foo))
+
+        lazy.invalidate(b, 'foo')
+        self.assertEqual(super(Bar, b).foo, 'foo')
+        self.assertEqual(b.foo, 'foo')
 
 
 class InvalidateTests(TestCase):
