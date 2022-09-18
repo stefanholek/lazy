@@ -5,9 +5,10 @@ Changelog
 ----------------
 
 - Allow type checkers to infer the type of a lazy attribute.
-  [elKei24]
+  Thanks to Elias Keis and Palpatineli for their contributions.
+  [elKei24] [Palpatineli]
 
-- Add Python 3.8-3.10 to tox.ini. Remove old Python versions.
+- Add Python 3.8-3.11 to tox.ini. Remove old Python versions.
   [stefan]
 
 - Replace deprecated ``python setup.py test`` in tox.ini.
