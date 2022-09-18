@@ -38,6 +38,12 @@ API Documentation
     of :class:`~lazy.lazy` may however have a contract where invalidation
     is appropriate.
 
+.. note::
+
+    The :class:`~lazy.lazy` descriptor is not thread safe. If your objects
+    are used across thread boundaries, you may be better off with a locking
+    descriptor like :func:`cached_property <py3k:functools.cached_property>`.
+
 Indices and Tables
 ==================
 
