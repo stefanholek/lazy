@@ -13,8 +13,12 @@ lazy |version| -- Lazy Attributes
 .. module:: lazy
 
 The :mod:`lazy` module provides a decorator to create lazy attributes.
+
 A lazy attribute is a computed attribute that is evaluated only once, the
 first time it is used. Subsequent uses return the results of the first call.
+
+The decorator is fully typed, and type checkers can infer the type of a lazy
+attribute from the return value of the decorated method.
 
 API Documentation
 =================
