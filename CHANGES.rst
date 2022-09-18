@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.5 - Unreleased
+1.5 - 2022-09-18
 ----------------
 
 - Allow type checkers to infer the type of a lazy attribute.
