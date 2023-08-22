@@ -4,6 +4,23 @@ Changelog
 1.6 - Unreleased
 ----------------
 
+- Update tox.ini for latest tox.
+  [stefan]
+
+- Add GitHub CI workflow.
+  [stefan]
+
+- Add .readthedocs.yaml file.
+  [stefan]
+
+- Pin sphinx and sphinx-rtd-theme versions in docs extra.
+  [stefan]
+
+- Add testing extra which installs mypy.
+  [stefan]
+
+- Fix stray characters in keywords.
+  [stefan]
 
 1.5 - 2022-09-18
 ----------------
