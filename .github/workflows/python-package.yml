@@ -11,8 +11,8 @@ env:
     PIP_NO_PYTHON_VERSION_WARNING: 1
 
 jobs:
-  # https://github.com/actions/setup-python/issues/672#issuecomment-1589120020
   build-27-buster:
+    # https://github.com/actions/setup-python/issues/672#issuecomment-1589120020
     runs-on: ubuntu-latest
     container:
       image: python:2.7.18-buster
@@ -41,6 +41,7 @@ jobs:
         run: python -m unittest discover
 
   build-36-buster:
+    # https://github.com/actions/setup-python/issues/672#issuecomment-1589120020
     runs-on: ubuntu-latest
     container:
       image: python:3.6.15-buster
