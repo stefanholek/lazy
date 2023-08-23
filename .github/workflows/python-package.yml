@@ -40,6 +40,34 @@ jobs:
       - name: Run tests
         run: python -m unittest discover
 
+  build-36-buster:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.6.15-buster
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.6"]
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          all_but_latest: true
+
+      - name: Check out project
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: python -m pip install -e .
+
+      - name: List installed packages
+        run: python -m pip list
+
+      - name: Run tests
+        run: python -m unittest discover
+
   build:
     runs-on: ubuntu-latest
 
