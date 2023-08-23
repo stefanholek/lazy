@@ -127,6 +127,8 @@ jobs:
         run: |
           echo "dir=$(python -m pip cache dir)" >> $GITHUB_OUTPUT
           echo "py=$(python -c'import sys; print("%d.%d" % sys.version_info[:2])')" >> $GITHUB_OUTPUT
+          echo "dir=$(python -m pip cache dir)"
+          echo "py=$(python -c'import sys; print("%d.%d" % sys.version_info[:2])')"
 
       - name: Cache pip
         uses: actions/cache@v3
