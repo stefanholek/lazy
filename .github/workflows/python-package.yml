@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
     PIP_DISABLE_PIP_VERSION_CHECK: 1
     PIP_NO_PYTHON_VERSION_WARNING: 1
@@ -23,11 +27,6 @@ jobs:
         python-version: ["2.7"]
 
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.11.0
-        with:
-          all_but_latest: true
-
       - name: Check out project
         uses: actions/checkout@v3
 
@@ -52,11 +51,6 @@ jobs:
         python-version: ["3.6"]
 
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.11.0
-        with:
-          all_but_latest: true
-
       - name: Check out project
         uses: actions/checkout@v3
 
@@ -78,11 +72,6 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12.0-rc.1", pypy-2.7, pypy-3.10]
 
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.11.0
-        with:
-          all_but_latest: true
-
       - name: Check out project
         uses: actions/checkout@v3
 
@@ -109,11 +98,6 @@ jobs:
         python-version: ["3.9", "3.11"]
 
     steps:
-      - name: Cancel previous runs
-        uses: styfle/cancel-workflow-action@0.11.0
-        with:
-          all_but_latest: true
-
       - name: Check out project
         uses: actions/checkout@v3
 
