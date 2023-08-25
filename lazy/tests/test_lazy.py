@@ -1,4 +1,5 @@
 import sys
+import functools
 import unittest
 
 from lazy import lazy
@@ -229,6 +230,90 @@ class LazyTests(TestCase):
         lazy.invalidate(b, 'foo')
         self.assertEqual(super(Bar, b).foo, 'foo')
         self.assertEqual(b.foo, 'foo')
+
+    def test_find_descriptors(self):
+        # It should be possible to find all lazy attributes of an object.
+
+        def other(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                return 'foo'
+            @lazy
+            def __bar(self):
+                return 'bar'
+            @lazy
+            @other
+            def baz(self):
+                return 'baz'
+            @other
+            @lazy
+            def quux(self):
+                return 'quux'
+
+        f = Foo()
+        cls = f.__class__
+
+        descriptors = []
+        for name in cls.__dict__:
+            if isinstance(getattr(cls, name), lazy):
+                descriptors.append(name)
+
+        self.assertEqual(sorted(descriptors), ['_Foo__bar', 'baz', 'foo'])
+
+    def test_other_decorators_must_use_functools_wraps(self):
+        # Other decorators may be combined with lazy if
+        # a) lazy is the first (outermost) decorator, and
+        # b) the decorators properly use functools.wraps.
+        called = []
+
+        def other(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+
+        class Foo(object):
+            @lazy
+            @other
+            def foo(self):
+                called.append('foo')
+                return 1
+
+        f = Foo()
+        self.assertTrue(isinstance(Foo.foo, lazy))
+        self.assertTrue(f.foo is f.foo)
+        self.assertTrue(f.foo is f.__dict__['foo'])
+        self.assertEqual(len(called), 1)
+
+    def test_lazy_decorator_must_come_first(self):
+        # Things break when lazy is not the outermost decorator.
+        called = []
+
+        def other(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+
+        class Foo(object):
+            @other
+            @lazy
+            def foo(self):
+                called.append('foo')
+                return 1
+
+        f = Foo()
+        self.assertFalse(isinstance(Foo.foo, lazy))
+        self.assertNotEqual(f.foo, 1)
+        self.assertException(TypeError,
+            "'lazy' object is not callable",
+            f.foo)
 
 
 class InvalidateTests(TestCase):
