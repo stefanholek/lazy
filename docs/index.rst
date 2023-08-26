@@ -17,7 +17,7 @@ The :mod:`lazy` module provides a decorator to create lazy attributes.
 A lazy attribute is a computed attribute that is evaluated only once, the
 first time it is used. Subsequent uses return the results of the first call.
 
-The decorator is fully typed, and type checkers can infer the type of a lazy
+The decorator is fully typed. Type checkers can infer the type of a lazy
 attribute from the return value of the decorated method.
 
 API Documentation
@@ -37,12 +37,6 @@ API Documentation
     This obviously violates the :class:`~lazy.lazy` contract. Subclasses
     of :class:`~lazy.lazy` may however have a contract where invalidation
     is appropriate.
-
-.. note::
-
-    The :class:`~lazy.lazy` descriptor is not thread safe. If your objects
-    are used across thread boundaries, you may be better off with a locking
-    descriptor like :func:`cached_property <py3k:functools.cached_property>`.
 
 Indices and Tables
 ==================
