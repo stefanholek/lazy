@@ -4,6 +4,10 @@ Changelog
 1.6 - Unreleased
 ----------------
 
+- Implement ``lazy.__set_name__()`` which helps in cases like
+  ``foo=lazy(_foo)``.
+  [stefan]
+
 - Update tox.ini for latest tox.
   [stefan]
 
