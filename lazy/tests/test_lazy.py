@@ -315,6 +315,29 @@ class LazyTests(TestCase):
             "'lazy' object is not callable",
             f.foo)
 
+    def test_set_name(self):
+        # In Python >= 3.6 __set_name__ is called on lazy attributes.
+        called = []
+
+        class Foo(object):
+            def _foo(self):
+                called.append('foo')
+                return 1
+            foo = lazy(_foo)
+
+        f = Foo()
+        self.assertTrue(isinstance(Foo.foo, lazy))
+        self.assertTrue(f.foo is f.foo)
+
+        if sys.version_info >= (3, 6):
+            self.assertEqual(Foo.foo.__name__, 'foo')
+            self.assertTrue(f.foo is f.__dict__['foo'])
+        else:
+            self.assertEqual(Foo.foo.__name__, '_foo')
+            self.assertTrue(f.foo is f.__dict__['_foo'])
+
+        self.assertEqual(len(called), 1)
+
 
 class InvalidateTests(TestCase):
 

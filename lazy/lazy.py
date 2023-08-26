@@ -20,6 +20,9 @@ class lazy(object):
         self.__func = func
         functools.wraps(self.__func)(self)
 
+    def __set_name__(self, cls, name):
+        self.__name__ = name
+
     def __get__(self, inst, inst_cls):
         if inst is None:
             return self
