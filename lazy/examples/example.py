@@ -127,6 +127,16 @@ if TYPE_CHECKING:
             return super().__class_getitem__(params)
 
 
+# Check __set_name__ declaration
+if TYPE_CHECKING:
+    class Z:
+        @lazy
+        def foo(self) -> None:
+            pass
+
+    Z.foo.__set_name__(Z, 'foo')
+
+
 if __name__ == '__main__':
     f()
     g()

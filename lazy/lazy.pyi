@@ -11,8 +11,11 @@ _R = TypeVar("_R")
 
 class lazy(Generic[_R]):
     __func: Callable[[Any], _R]
+    __name__: str
 
     def __init__(self, func: Callable[[Any], _R]) -> None: ...
+
+    def __set_name__(self, owner: Type[Any], name: str) -> None: ...
 
     @overload
     def __get__(self, inst: None, inst_cls: Optional[Type[Any]] = ...) -> lazy[_R]: ...

@@ -20,7 +20,7 @@ class lazy(object):
         self.__func = func
         functools.wraps(self.__func)(self)
 
-    def __set_name__(self, cls, name):
+    def __set_name__(self, owner, name):
         self.__name__ = name
 
     def __get__(self, inst, inst_cls):
