@@ -53,6 +53,10 @@ The class below creates its ``store`` resource lazily:
         def get(self, uid, default=None):
             return self.store.get(uid, default)
 
+        def close(self):
+            if 'store' in self.__dict__:
+                self.store.close()
+
 Another application area is caching:
 
 .. code-block:: python
