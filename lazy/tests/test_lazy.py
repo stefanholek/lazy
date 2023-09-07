@@ -1,5 +1,6 @@
 import sys
 import functools
+import inspect
 import unittest
 
 from lazy import lazy
@@ -231,6 +232,59 @@ class LazyTests(TestCase):
         self.assertEqual(super(Bar, b).foo, 'foo')
         self.assertEqual(b.foo, 'foo')
 
+    def test_inherited_attribute(self):
+        # Inherited attributes should be stored in the instance they are
+        # called on.
+        called = []
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                called.append('foo')
+                return 'foo'
+
+        class Bar(Foo):
+            pass
+
+        b = Bar()
+        self.assertFalse('foo' in b.__dict__)
+        self.assertEqual(b.foo, 'foo')
+        self.assertEqual(len(called), 1)
+        self.assertEqual(b.foo, 'foo')
+        self.assertEqual(len(called), 1)
+        self.assertTrue('foo' in b.__dict__)
+
+    def test_inherited_private_attribute(self):
+        # Inherited private attributes should be stored in the instance
+        # they are called on.
+        called = []
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                called.append('foo')
+                return self.__bar
+            @lazy
+            def __bar(self):
+                called.append('bar')
+                return 'bar'
+
+        class Bar(Foo):
+            pass
+
+        b = Bar()
+        self.assertFalse('foo' in b.__dict__)
+        self.assertEqual(b.foo, 'bar')
+        self.assertEqual(len(called), 2)
+        self.assertEqual(b.foo, 'bar')
+        self.assertEqual(len(called), 2)
+        self.assertTrue('foo' in b.__dict__)
+
+        if sys.version_info >= (3,):
+            self.assertTrue('_Foo__bar' in b.__dict__)
+        else:
+            self.assertTrue('_Bar__bar' in b.__dict__) # !
+
     def test_find_descriptors(self):
         # It should be possible to find all lazy attributes of an object.
 
@@ -265,6 +319,47 @@ class LazyTests(TestCase):
                 descriptors.append(name)
 
         self.assertEqual(sorted(descriptors), ['_Foo__bar', 'baz', 'foo'])
+
+    def test_find_inherited_descriptors(self):
+        # It should be possible to find inherited lazy attributes of
+        # an object.
+
+        def other(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                return func(*args, **kwargs)
+            return wrapper
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                return 'foo'
+            @lazy
+            def __bar(self):
+                return 'bar'
+            @lazy
+            @other
+            def baz(self):
+                return 'baz'
+            @other
+            @lazy
+            def quux(self):
+                return 'quux'
+
+        class Bar(Foo):
+            @lazy
+            def __bar(self):
+                return 'bar'
+
+        b = Bar()
+
+        descriptors = []
+        for cls in inspect.getmro(b.__class__):
+            for name in cls.__dict__:
+                if isinstance(getattr(cls, name), lazy):
+                    descriptors.append(name)
+
+        self.assertEqual(sorted(descriptors), ['_Bar__bar', '_Foo__bar', 'baz', 'foo'])
 
     def test_other_decorators_must_use_functools_wraps(self):
         # Other decorators may be combined with lazy if
@@ -520,6 +615,31 @@ class InvalidateTests(TestCase):
         self.assertException(AttributeError,
             "'Foo' object has no attribute '__dict__'",
             lazy.invalidate, f, 'foo')
+
+    def test_invalidate_inherited_attribute(self):
+        # It should be possible to invalidate an inherited lazy
+        # attribute.
+        called = []
+
+        class Foo(object):
+            @lazy
+            def foo(self):
+                called.append('foo')
+                return 1
+
+        class Bar(Foo):
+            pass
+
+        b = Bar()
+        self.assertEqual(b.foo, 1)
+        self.assertEqual(len(called), 1)
+        self.assertEqual(b.foo, 1)
+        self.assertEqual(len(called), 1)
+
+        lazy.invalidate(b, 'foo')
+
+        self.assertEqual(b.foo, 1)
+        self.assertEqual(len(called), 2)
 
 
 # A lazy subclass
