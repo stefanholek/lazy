@@ -20,7 +20,7 @@ Changelog
 - Pin sphinx and sphinx-rtd-theme versions in docs extra.
   [stefan]
 
-- Add testing extra which installs mypy.
+- Add mypy extra which installs mypy.
   [stefan]
 
 - Fix stray characters in keywords.
