@@ -1,6 +1,8 @@
 from datetime import date
 from lazy import lazy
 
+from typing import TypeVar, Any
+
 
 class C(object):
 
@@ -51,16 +53,11 @@ def f() -> None:
 
 
 # Inherit from lazy
-# Also see https://github.com/python/mypy/pull/8573/files
-from typing import TYPE_CHECKING, TypeVar
-
 _R = TypeVar('_R')
 
 
-if TYPE_CHECKING:
-    class cached(lazy[_R]): pass
-else:
-    class cached(lazy): pass
+class cached(lazy[_R]):
+    pass
 
 
 class E(object):
@@ -117,28 +114,27 @@ def h() -> None:
 
 
 # Check __class_getitem__ declaration
-if TYPE_CHECKING:
-    from typing import Any
-    from types import GenericAlias
-
-    class supercached(lazy[_R]):
-        @classmethod
-        def __class_getitem__(cls, params: Any) -> GenericAlias:
-            return super().__class_getitem__(params)
+def i() -> None:
+    lazy.__class_getitem__(None)
+    cached.__class_getitem__(None)
 
 
 # Check __set_name__ declaration
-if TYPE_CHECKING:
-    class Z:
-        @lazy
-        def foo(self) -> None:
-            pass
+class Z:
+    @lazy
+    def foo(self) -> int:
+        return 1
 
-    Z.foo.__set_name__(Z, 'foo')
+
+def j() -> None:
+    Z.foo.__set_name__(Z, 'bar')
+    Z.foo.__name__ == 'bar'
 
 
 if __name__ == '__main__':
     f()
     g()
     h()
+    i()
+    j()
 
