@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.6 - Unreleased
+1.6 - 2023-09-14
 ----------------
 
 - Implement ``lazy.__set_name__()`` which helps in cases like
