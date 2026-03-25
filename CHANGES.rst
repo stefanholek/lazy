@@ -4,6 +4,8 @@ Changelog
 1.7 - Unreleased
 ----------------
 
+- Remove support for universal wheels.
+  [stefan]
 
 1.6 - 2023-09-14
 ----------------
