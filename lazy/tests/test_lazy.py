@@ -200,10 +200,9 @@ class LazyTests(TestCase):
         self.assertEqual(b.foo, 'foox')
         self.assertEqual(b.foo, 'foox')
 
-        if sys.version_info >= (3,):
-            b = Baz()
-            self.assertEqual(b.foo, 'fooxx')
-            self.assertEqual(b.foo, 'fooxx')
+        b = Baz()
+        self.assertEqual(b.foo, 'fooxx')
+        self.assertEqual(b.foo, 'fooxx')
 
     def test_super_binding(self):
         # It should be impossible to change the cache once set.
