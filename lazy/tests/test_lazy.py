@@ -280,7 +280,7 @@ class LazyTests(TestCase):
         self.assertEqual(len(called), 2)
         self.assertTrue('foo' in b.__dict__)
 
-        if sys.version_info >= (3,):
+        if sys.version_info >= (3, 6):
             self.assertTrue('_Foo__bar' in b.__dict__)
         else:
             self.assertTrue('_Bar__bar' in b.__dict__) # !
