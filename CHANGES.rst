@@ -4,9 +4,6 @@ Changelog
 1.7 - Unreleased
 ----------------
 
-- Remove support for universal wheels.
-  [stefan]
-
 - Remove deprecated license classifier.
   [stefan]
 
@@ -17,6 +14,9 @@ Changelog
   [stefan]
 
 - Upgrade sphinx and sphinx-rtd-theme in docs extra.
+  [stefan]
+
+- Require Python >= 3.5.
   [stefan]
 
 1.6 - 2023-09-14
