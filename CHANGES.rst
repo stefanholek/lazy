@@ -10,6 +10,15 @@ Changelog
 - Remove deprecated license classifier.
   [stefan]
 
+- Upgrade GitHub workflow.
+  [stefan]
+
+- Upgrade .readthedocs.yaml.
+  [stefan]
+
+- Upgrade sphinx and sphinx-rtd-theme in docs extra.
+  [stefan]
+
 1.6 - 2023-09-14
 ----------------
 
