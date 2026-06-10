@@ -4,7 +4,7 @@ from lazy import lazy
 from typing import TypeVar, Any
 
 
-class C(object):
+class C():
 
     @lazy
     def foo(self) -> str:
@@ -60,7 +60,7 @@ class cached(lazy[_R]):
     pass
 
 
-class E(object):
+class E():
     @cached
     def foo(self) -> str:
         return 'foo'
@@ -91,7 +91,7 @@ def g() -> None:
 
 
 # Check Python >= 3.9
-class Y(object):
+class Y():
 
     @lazy[str]
     def foo(self) -> str:

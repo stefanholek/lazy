@@ -9,7 +9,7 @@ if sys.version_info >= (3, 9):
 _marker = object()
 
 
-class lazy(object):
+class lazy():
     """lazy descriptor
 
     Used as a decorator to create lazy attributes. Lazy attributes
