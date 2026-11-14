@@ -63,5 +63,6 @@ class lazy():
             del inst.__dict__[name]
 
     if sys.version_info >= (3, 9):
-        __class_getitem__ = classmethod(GenericAlias)
+        def __class_getitem__(cls, params):
+            return GenericAlias(cls, params)
 
