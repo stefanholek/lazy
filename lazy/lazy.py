@@ -3,6 +3,8 @@
 import sys
 import functools
 
+from typing import Callable, cast
+
 if sys.version_info >= (3, 9):
     from types import GenericAlias
 
@@ -18,7 +20,7 @@ class lazy():
 
     def __init__(self, func):
         self.__func = func
-        functools.wraps(self.__func)(self)
+        functools.wraps(self.__func)(cast(Callable[..., object], self))
 
     def __set_name__(self, owner, name):
         self.__name__ = name
