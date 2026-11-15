@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, workflow]
+    branches: [main, workflow, support-ty]
   pull_request:
     branches: [main]
 
@@ -18,6 +18,7 @@ permissions: {}
 
 jobs:
   build:
+    needs: type-check
     runs-on: ubuntu-latest
 
     strategy:
@@ -63,15 +64,13 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
-          cache-dependency-path: setup.cfg
 
       - name: Install dependencies
-        run: python -m pip install -e .[mypy]
+        run: python -m pip install -e .[ty]
 
       - name: List installed packages
         run: python -m pip list
 
       - name: Run type checker
-        run: python -m mypy --strict --exclude lazy/tests lazy
+        run: python -m ty check --output-format github lazy
 
