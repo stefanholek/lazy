@@ -1,7 +1,6 @@
 import sys
 
-from typing import TypeVar, Callable, Type, Generic
-from typing import Optional, Any, overload
+from typing import Any, Callable, Generic, Optional, Type, TypeVar, overload
 
 if sys.version_info >= (3, 9):
     from types import GenericAlias
